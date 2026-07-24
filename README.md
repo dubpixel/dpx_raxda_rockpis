@@ -36,6 +36,10 @@
     <a href="https://github.com/dubpixel/dpx_raxda_rockpis/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
     <a href="https://github.com/dubpixel/dpx_raxda_rockpis/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    ·
+    <a href="https://github.com/dubpixel/dpx_raxda_rockpis/blob/main/src/STL/dpx_rocpis_Poe_case_top_v14.stl">🧊 Top (3D)</a>
+    ·
+    <a href="https://github.com/dubpixel/dpx_raxda_rockpis/blob/main/src/STL/dpx_rocpis_Poe_case_bottom_v14.stl">🧊 Bottom (3D)</a>
     </p>
 </div>
    <br />
@@ -68,7 +72,7 @@
 <summary><h3>About The Project</h3></summary>
 Custom two-part enclosure for the **Radxa Rock Pi S** single-board computer fitted with the **Rockpi POE HAT v1.2**. Designed so the whole stack — board, POE hat, and ethernet connector — sits cleanly inside a compact shell with no dangling cables.
 
-The case went through several design iterations (v8 → v14) improving fitment, clearances for the POE hat capacitors, and the lid retention method. The final v14 STLs are the ones to print.
+The case went through several design iterations (v8 → v14) improving fitment, clearances for the POE hat capacitors, and the lid retention method. The final v14 STLs are the ones to print: [top](https://github.com/dubpixel/dpx_raxda_rockpis/blob/main/src/STL/dpx_rocpis_Poe_case_top_v14.stl) · [bottom](https://github.com/dubpixel/dpx_raxda_rockpis/blob/main/src/STL/dpx_rocpis_Poe_case_bottom_v14.stl) (click to open interactive 3D viewer on GitHub).
 
 `src/reference/` contains the official Radxa STEP/DWG files used as the basis for each design revision. The custom case files live in `STL/`.
 
