@@ -100,7 +100,7 @@ This project is used as the physical hardware platform for [dpx-buttnode](https:
 | Infill | 20% gyroid |
 | Supports | Yes — touching bed only (lid overhang and port cutouts) |
 | Bed Adhesion | Brim (top/bottom pieces print separately) |
-| Print Time | ~3h per piece @ 0.2mm |
+| Print Time | ~58min per piece @ 0.2mm (Bambu X1C) |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
