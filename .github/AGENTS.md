@@ -4,112 +4,72 @@ This document provides operational directives for AI coding assistants (GitHub C
 
 ---
 
-## PROJECT: [Project Name]
+## PROJECT: dpx_raxda_rockpis
 
-**Instructions for customizing this section:**
-Replace the placeholders below with your project's specific information. Remove subsections that don't apply. This template is intentionally verbose — prune what you don't need.
-
-**Status:** [e.g., v0.1.0 complete (2026-06-05) ✅]  
-**Branch:** [e.g., `feature/core-app-implementation`]  
-**Version File:** [e.g., `VERSION` (currently 0.1.0)]
+**Status:** v0.1.0 complete (2026-07-23) ✅  
+**Branch:** `main`  
+**Version File:** `CHANGELOG.md` (no separate VERSION file — no code)
 
 ### Architecture (2-minute summary)
 
-[One-paragraph overview: what this project does, core tech, how it works]
+3D print design project: custom two-part snap/bolt enclosure for the Radxa Rock Pi S SBC fitted with the Rockpi POE HAT v1.2. The case went through design iterations v8→v14 improving clearances for POE hat capacitors and lid retention. `src/reference/` holds official Radxa STEP/DWG geometry used as the design basis. The printable assembly is `STL/dpx_rocpis_Poe_case.3mf`. No code, no build system — CAD files and documentation only.
 
-**Example:** "Browser-based monitoring tool for Phabrix QX waveform monitors. Pure vanilla JS (no frameworks, no build step, no CDN). Connects to QX REST API on port 8080, polls status/logs every 2-5s, stores settings in localStorage. Works offline in airgapped broadcast facilities."
+This enclosure is the recommended hardware platform for [dpx-buttnode](https://github.com/dubpixel/dpx_buttnode).
 
 | Component | Tech/Location | Purpose | Notes |
 |-----------|---------------|---------|-------|
-| [Component 1] | [Tech] / `path/` | [What it does] | [Key details] |
-| [Component 2] | [Tech] / `path/` | [What it does] | [Key details] |
-| [Component 3] | [Tech] / `path/` | [What it does] | [Key details] |
-| [Reference docs] | [Format] / `path/` | [What it is] | **Source of truth for [topic]** |
+| Printable assembly | 3MF / `STL/dpx_rocpis_Poe_case.3mf` | Final v14 case design | For PrusaSlicer / Bambu Studio |
+| Reference geometry | STEP/DWG / `src/reference/` | Official Radxa Rock Pi S PCB/board models | **Source of truth for board dimensions** — do not edit |
+| README | Markdown / `README.md` | Print settings, usage, design notes | dpx README template v0.6.0 |
+| CHANGELOG | Markdown / `CHANGELOG.md` | Version history | Also serves as version source |
 
 ### Agent Rules (for this repo)
 
-**Before ANY code change:**
-1. Work from `[main/master]` branch; create feature branch: `feature/brief-description`
-2. Bump VERSION file per semantic versioning (AGENTS.md §1)
-3. Create git commit for version bump, tag it: `git tag vX.Y.Z`
+**Before ANY file change:**
+1. Create feature branch from `main`: `feature/brief-description` or `docs/what-changed`
+2. Version bump goes in `CHANGELOG.md` only (no VERSION file in this repo)
 
-**While coding:**
-- [Project-specific rule or constraint]
-- [Technology requirement or restriction]
-- [Testing/validation requirement]
-- Keep changes small, test before committing
-- File header per AGENTS.md §3
+**While editing:**
+- Never modify files in `src/reference/` — these are upstream official Radxa reference models
+- Printable output files live in `STL/` — that's the release directory
+- README follows dpx README template — fill in content, never replace the structure or remove template sections
+- Changes here are almost always docs or new STL/3MF versions
 
 **When done:**
-- Update CHANGELOG.md with feature list
+- Update `CHANGELOG.md` with new version entry and date
 - Create PR per AGENTS.md §1 template
-- [Any project-specific verification steps]
 
 ### Critical Constraints
 
 **MUST HAVE:**
-- ✅ [Required capability or dependency]
-- ✅ [Required technology or approach]
-- ✅ [Required compatibility or standard]
+- ✅ `src/reference/` kept intact — official Radxa STEP/DWG files, never edit or delete
 
 **DO NOT:**
-- ❌ [Forbidden action or technology]
-- ❌ [Assumption that must be avoided]
-- ❌ [Hard-coded value or static configuration]
-- ❌ [Change that requires explicit verification]
+- ❌ Modify files in `src/reference/` — upstream reference files, not our design
+- ❌ Commit binary CAD source files (`.f3d`, `.FCStd`) — STL/3MF outputs only
+- ❌ Replace the README structure — fill in content, don't replace the dpx template skeleton
 
 ### Key Decisions
 
-- **[Decision Title]:** [Explanation - why this approach was chosen over alternatives]
-- **[Decision Title]:** [Rationale for architecture/design choice]
-- **[Decision Title]:** [Context for future agents]
-
-**Examples:**
-- **Dual README templates:** Hardware needs schematics/BOMs, software needs API docs - fundamentally different documentation needs
-- **No WebSocket:** QX REST API is HTTP-only. Polling is the only option.
-- **Bootstrap on connect:** Device specs vary by boot mode - auto-detect on initial connection
+- **3MF over STL:** `.3mf` embeds print settings (layer height, supports, orientation) alongside geometry — no separate slicer profile needed.
+- **Reference models in-tree:** Official Radxa STEP files committed alongside the design so future redesigns always have board geometry at hand without hunting down upstream source.
+- **No VERSION file:** Pure 3D design repo with no installable artifacts; version tracked in `CHANGELOG.md` only.
 
 ### Gotchas & Landmines
 
-1. **[Issue Title]:** [Description]. [Workaround or solution]. [Where to look for more info]
-2. **[Issue Title]:** [Description]. [Workaround or solution].
-3. **[Issue Title]:** [Description]. [Always check/verify X before doing Y].
-
-**Examples:**
-- **CORS issue:** API calls from `file://` origin fail. Use launch script or Python server, not direct open.
-- **Boot modes matter:** Device can boot in different modes. Different endpoints available per mode. Always auto-detect on connect.
-- **Manual is authority:** If specs seem odd, check `/docs/manual.pdf` Ch.X. Don't guess.
+1. **`src/reference/` contains intentional duplicates.** `radxa-rock-pi-s-case-model_files/` is a copy of `Rock PI S 3D scan.stp` — intentional archiving, not an error.
+2. **File names with spaces in `src/reference/`** — paths must be quoted in any shell commands touching these files.
+3. **v14 is the final version.** The `.3mf` includes design iteration history v8→v14; only v14 is intended for printing.
 
 ### Common Operations
 
-**[Operation 1 - e.g., Create new project]:** `./script.sh` (interactive prompts for X/Y/Z)
+**Update the case design:** Replace/add files in `STL/`, bump version in `CHANGELOG.md`.
 
-**[Operation 2 - e.g., Modify behavior]:** Edit `path/to/file.ext` - all logic centralized
-
-**[Operation 3 - e.g., Add components]:** Add to `path/`, update `config.ext` if special handling needed
-
-**[Operation 4 - e.g., Template processing]:**
-- [Scenario A]: `input-A.ext` → `output.ext`
-- [Scenario B]: `input-B.ext` → `output.ext`  
-- [Always]: `.git` and `.env` excluded from copy
+**Update README content:** Edit `README.md` — fill in About details, print settings, images. Never remove template sections (see user memory `readme-template.md`).
 
 ### Reference
 
-See `/CONTEXT.md` for:
-- [Extended architecture details]
-- [Module/component specifications]
-- [Data schemas or API contracts]
-
-See `/.github/CONTEXT.md` for:
-- [API endpoint reference]
-- [Configuration specifications]
-- [Testing procedures]
-
-### Development Philosophy
-
-[Optional: High-level principles for this project type]
-
-**Example:** "This is broadcast infrastructure tooling - reliability and simplicity trump features. Prefer vanilla JavaScript over frameworks. Keep dependencies minimal and auditable. Test in airgapped environments. Design for 24/7 unattended operation."
+See [README.md](../README.md) for print settings, hardware BOM, and design notes.
 
 ---
 
@@ -375,6 +335,25 @@ Examples:
 - `[Telegraf] Fix enum processor deprecation`
 
 **NEVER ask permission to create the PR - just do it.**
+
+### Build Artifact Naming
+
+Non-`main` builds append the branch slug to the filename so artifacts are
+self-identifying without opening the run log.
+
+| Branch | Filename |
+|--------|----------|
+| `main` | `<name>-vX.Y.Z.<ext>` |
+| anything else | `<name>-vX.Y.Z-<branch-slug>.<ext>` |
+
+```bash
+if [ "$BRANCH" = "main" ]; then
+  OUT="myapp-v${VERSION}.ext"
+else
+  BRANCH_SLUG=$(echo "$BRANCH" | sed 's|/|-|g' | sed 's|[^a-zA-Z0-9._-]|-|g')
+  OUT="myapp-v${VERSION}-${BRANCH_SLUG}.ext"
+fi
+```
 
 ---
 
